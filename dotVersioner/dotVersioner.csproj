@@ -72,6 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="scenario1\ReleaseTrack.txt" />
+    <Content Include="scenario1\VersionedFiles.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scenario1\Prop1\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

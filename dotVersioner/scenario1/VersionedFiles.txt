@@ -1,0 +1,3 @@
+﻿FileName|Preffix|Suffix
+AssemblyInfo.cs|[assembly: AssemblyVersion("|")]
+AssemblyInfo.cs|[assembly: AssemblyFileVersion("|")]

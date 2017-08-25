@@ -7,10 +7,6 @@ namespace Engine
         private IFileEditor editor;
         private ISourceResolver resolver;
 
-        public Versioner() : this(new FileResolver(), new FilePropertyEditor())
-        {
-        }
-
         public Versioner(ISourceResolver resolver, IFileEditor editor)
         {
             this.resolver = resolver;

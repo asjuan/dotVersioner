@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/dotVersioner/v15
+/dotVersioner/bin/Debug
+/dotVersioner/bin/Release
+/dotVersioner/obj
+/Engine/bin
+/Engine/obj
+/packages
+/VersionsCli/bin/Debug
+/VersionsCli/obj

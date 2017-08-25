@@ -7,34 +7,45 @@ namespace Engine
 {
     public class FilePropertyEditor : IFileEditor
     {
+        private IEnumerable<VersionedFile> sources;
+
+        public FilePropertyEditor(IEnumerable<VersionedFile> sources)
+        {
+            this.sources = sources;
+        }
+
         public void Edit(string path, IEnumerable<Release> releases)
         {
             var current = releases.Last();
-            var allFiles = Directory.GetFiles(path, "AssemblyInfo.cs", SearchOption.AllDirectories);
-            foreach (var file in allFiles)
+            foreach (var setting in sources)
             {
-                var codeblocks = new List<string>();
-                foreach (string line in File.ReadLines(file, Encoding.UTF8))
+                var allFiles = Directory.GetFiles(path, setting.FileName, SearchOption.AllDirectories);
+                foreach (var file in allFiles)
                 {
-                    if (line.StartsWith("[assembly: AssemblyVersion("))
+                    var codeblocks = new List<string>();
+                    foreach (string line in File.ReadLines(file, Encoding.UTF8))
                     {
-                        codeblocks.Add(@"[assembly: AssemblyVersion(\""" + current.Version + @"\"")]");
+                        if (line.StartsWith(setting.Preffix))
+                        {
+                            codeblocks.Add(string.Format("{0}{1}{2}", setting.Preffix,  current.Version, setting.Suffix));
+                        }
+                        else
+                        {
+                            codeblocks.Add(line);
+                        }
                     }
-                    else if (line.StartsWith("[assembly: AssemblyFileVersion("))
-                    {
-                        codeblocks.Add(@"[assembly: AssemblyFileVersion(""" + current.Version + @""")]");
-                    }
-                    else
-                    {
-                        codeblocks.Add(line);
-                    }
+                    SaveChanges(file, codeblocks);
                 }
-                using (var sw = new StreamWriter(file))
+            }
+        }
+
+        private static void SaveChanges(string file, List<string> codeblocks)
+        {
+            using (var sw = new StreamWriter(file))
+            {
+                foreach (string line in codeblocks)
                 {
-                    foreach (string line in codeblocks)
-                    {
-                        sw.WriteLine(line);
-                    }
+                    sw.WriteLine(line);
                 }
             }
         }

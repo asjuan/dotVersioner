@@ -1,4 +1,5 @@
 ﻿using Engine;
+using file2objects;
 using System;
 
 namespace VersionsCli
@@ -12,7 +13,9 @@ namespace VersionsCli
                 Console.WriteLine("Provide a path to your solution");
                 return;
             }
-            var versioner = new Versioner();
+
+            var settings = PlainTextReader.From(args[0] + "\\VersionedFiles.txt").DelimitBy(ColumnDelimiter.Pipe).GetAListOf<VersionedFile>();
+            var versioner = new Versioner(new FileResolver(), new FilePropertyEditor(settings) );
             versioner.ApplyTo(args[0]);
         }
     }

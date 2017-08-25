@@ -57,7 +57,15 @@ namespace dotVersioner
         [TestMethod]
         public void ShouldApplyVersionToScenario1()
         {
-            var sut = new Versioner();
+            var settings = new List<VersionedFile>
+            {
+                new VersionedFile {
+                    FileName= "AssemblyInfo.cs",
+                    Preffix = @"[assembly: AssemblyVersion(""",
+                    Suffix = @""")]"
+                }
+            };
+            var sut = new Versioner(new FileResolver(), new FilePropertyEditor(settings));
             sut.ApplyTo(@"..\\..\\scenario1");
 
         }
